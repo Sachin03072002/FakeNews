@@ -10,8 +10,8 @@ class Input(BaseModel):
 
 app = FastAPI()
 
-data_fake = pd.read_csv(r'C:\Users\SACHIN MONDAL\Downloads\archive (3)\Fake.csv')
-data_true = pd.read_csv(r'C:\Users\SACHIN MONDAL\Downloads\archive (3)\True.csv')
+data_fake = pd.read_csv(r'Fake.csv')
+data_true = pd.read_csv(r'True.csv')
 
 
 data = preprocess_data(data_fake, data_true)
