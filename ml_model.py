@@ -10,38 +10,33 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import PorterStemmer
 
-def preprocess_data(data_fake, data_true):
+def preprocess_text(text):
     stop_words = set(stopwords.words('english'))
     ps = PorterStemmer()
 
-    def preprocess_text(text):
-        text = text.lower()
-        text = re.sub(r'\[.*?\]', '', text)
-        text = re.sub(r'\W', ' ', text)
-        text = re.sub(r'https?://\S+|www\.\S+', '', text)
-        text = re.sub(r'<.*?>', '', text)
-        text = re.sub(r'[{}]'.format(re.escape(string.punctuation)), '', text)
-        text = re.sub(r'\n', '', text)
-        text = re.sub(r'\w\d\w', '', text)
+    text = text.lower()
+    text = re.sub(r'\[.*?\]', '', text)
+    text = re.sub(r'\W', ' ', text)
+    text = re.sub(r'https?://\S+|www\.\S+', '', text)
+    text = re.sub(r'<.*?>', '', text)
+    text = re.sub(r'[{}]'.format(re.escape(string.punctuation)), '', text)
+    text = re.sub(r'\n', '', text)
+    text = re.sub(r'\w\d\w', '', text)
 
-        # Tokenization and removing stop words
-        tokens = word_tokenize(text)
-        tokens = [ps.stem(word) for word in tokens if word.isalnum() and word not in stop_words]
+    # Tokenization and removing stop words
+    tokens = word_tokenize(text)
+    tokens = [ps.stem(word) for word in tokens if word.isalnum() and word not in stop_words]
 
-        return ' '.join(tokens)
+    return ' '.join(tokens)
 
-    
+def preprocess_data(data_fake, data_true):
     data_fake['text'] = data_fake['text'].apply(preprocess_text)
     data_true['text'] = data_true['text'].apply(preprocess_text)
 
-    
     data_fake['class'] = 0
     data_true['class'] = 1
 
-    
     data = pd.concat([data_fake, data_true], axis=0)
-
-    
 
     return data
 
