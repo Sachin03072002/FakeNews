@@ -9,6 +9,8 @@ import string
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import PorterStemmer
+import nltk
+nltk.download('stopwords')
 
 def preprocess_data(data_fake, data_true):
     stop_words = set(stopwords.words('english'))
